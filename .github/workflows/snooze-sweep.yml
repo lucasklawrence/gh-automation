@@ -42,6 +42,10 @@ jobs:
         with:
           repository: lucasklawrence/gh-automation
           path: .gh-automation
+          # The plugin never uses git after this step, and in a reusable workflow
+          # `github.token` is the CALLER's token -- left in .gh-automation/.git/config it
+          # is readable by the script that runs next (zizmor `artipacked`; life#1565).
+          persist-credentials: false
       - name: Sweep snoozed issues
         env:
           GH_TOKEN: ${{ github.token }}
